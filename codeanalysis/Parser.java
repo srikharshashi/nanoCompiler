@@ -63,7 +63,7 @@ public class Parser {
         return _current;
     }
 
-    private SyntaxToken match(SyntaxKind sKind) {
+    private SyntaxToken matchToken(SyntaxKind sKind) {
         if (current().getKind() == sKind)
             return nextToken();
         _diagnostics.add("Parser : ERROR : Unexpected Token : " + current().getKind() + " ,Expected : " + sKind);
@@ -72,8 +72,8 @@ public class Parser {
 
     public SyntaxTree parse() {
 
-        var expression = parseTerm();
-        var endofFileToken = match(SyntaxKind.EndOfFileToken);
+        var expression = parseExpression();
+        var endofFileToken = matchToken(SyntaxKind.EndOfFileToken);
         return new SyntaxTree(_diagnostics, expression, endofFileToken);
 
     }
@@ -110,11 +110,11 @@ public class Parser {
         if (current().getKind() == SyntaxKind.BracketOpenToken) {
             var left = nextToken();
             var expression = parseExpression();
-            var right = match(SyntaxKind.BracketCloseToken);
+            var right = matchToken(SyntaxKind.BracketCloseToken);
             return new ParanthesizedExpressionSyntax(left, right, expression);
         }
 
-        var numberToken = match(SyntaxKind.NumberToken);
-        return new NumberExpressionSyntax(numberToken);
+        var numberToken = matchToken(SyntaxKind.NumberToken);
+        return new LiteralExpressionSyntax(numberToken);
     }
 }

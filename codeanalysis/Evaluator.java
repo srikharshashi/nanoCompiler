@@ -18,10 +18,10 @@ public class Evaluator {
     }
 
     private int evaluateExpression(ExpressionSyntax node) throws Exception {
-        if (node instanceof NumberExpressionSyntax) {
+        if (node instanceof LiteralExpressionSyntax) {
             // System.out.println("abc");
-            NumberExpressionSyntax _node = (NumberExpressionSyntax) node;
-            return (int) _node.getNumberToken().getValue();
+            LiteralExpressionSyntax _node = (LiteralExpressionSyntax) node;
+            return (int) _node.getLiteralToken().getValue();
         }
 
         else if (node instanceof BinaryExpressionSyntax) {
@@ -36,7 +36,7 @@ public class Evaluator {
                 case MinusToken -> left - right;
                 case StarToken -> left * right;
                 case BackSlashToken -> left / right;
-                default -> throw new Exception("EVALUATOR : Unxpected Binary Operator :" + operatorToken.getKind());
+                default -> throw new Exception("EVALUATOR : Unexpected Binary Operator :" + operatorToken.getKind());
             };
         } else if (node instanceof ParanthesizedExpressionSyntax) {
             ParanthesizedExpressionSyntax p = (ParanthesizedExpressionSyntax) node;

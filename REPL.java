@@ -10,23 +10,23 @@ class REPL {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        boolean showTree=false;
+        boolean showTree = false;
         while (true) {
             System.out.print(">");
             String str = sc.nextLine();
             if (str.isEmpty())
                 break;
-            else if(str.equals("#showTree")){
-                showTree=!showTree;
-                printColorText(Colors.ANSI_GREEN,showTree?"Enabled Tree Printing":"Disabled Tree Priniting");
+            else if (str.equals("#showTree")) {
+                showTree = !showTree;
+                printColorText(Colors.ANSI_GREEN, showTree ? "Enabled Tree Printing" : "Disabled Tree Priniting");
                 continue;
-            }else if(str.equals("#cls")){
+            } else if (str.equals("#cls")) {
                 System.out.print("\033\143");
                 continue;
             }
             var syntaxTree = SyntaxTree.parse(str);
-            if(showTree) PrettyPrint.pprint(null, str, showTree);
-    
+            if (showTree) PrettyPrint.pprint(null, str, showTree);
+
             if (!syntaxTree.get_diagnostics().isEmpty()) {
                 for (String error : syntaxTree.get_diagnostics()) {
                     printColorText(Colors.ANSI_RED, error);
@@ -37,11 +37,8 @@ class REPL {
                 printColorText(Colors.ANSI_GREEN, "Result : " + res);
             }
         }
-        sc.close();       
+        sc.close();
     }
-
-    
-
 }
 
 

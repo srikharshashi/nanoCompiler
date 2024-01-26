@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public final class NumberExpressionSyntax extends ExpressionSyntax {
+public final class LiteralExpressionSyntax extends ExpressionSyntax {
     private SyntaxToken _numberToken;
 
     @Override
     public SyntaxKind getKind() {
-        return SyntaxKind.NumberExpression;
+        return SyntaxKind.LiteralExpression;
     }
 
-    NumberExpressionSyntax(SyntaxToken numberToken) {
-        this._numberToken = numberToken;
+    LiteralExpressionSyntax(SyntaxToken literalToken) {
+        this._numberToken = literalToken;
     }
 
-    public SyntaxToken getNumberToken() {
+    public SyntaxToken getLiteralToken() {
         return _numberToken;
     }
 

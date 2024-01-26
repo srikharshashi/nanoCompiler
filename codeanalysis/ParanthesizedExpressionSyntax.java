@@ -35,7 +35,7 @@ public final class ParanthesizedExpressionSyntax extends ExpressionSyntax {
 
     @Override
     public SyntaxKind getKind() {
-        return SyntaxKind.ParanthesizedExpression;
+        return SyntaxKind.ParenthesizedExpression;
     }
 
     @Override

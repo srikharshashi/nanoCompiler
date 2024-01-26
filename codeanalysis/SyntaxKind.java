@@ -1,16 +1,23 @@
 package codeanalysis;
 
 public enum SyntaxKind {
+
+    //Tokens
+    EndOfFileToken,
+    BadToken,
     NumberToken,
     WhiteSpaceToken,
+
+    //operators
     PlusToken,
     MinusToken,
     StarToken,
     BackSlashToken,
     BracketOpenToken,
     BracketCloseToken,
-    EndOfFileToken,
-    BadToken,
+
+    //expressions
     BinaryExpression,
-    NumberExpression, ParanthesizedExpression
+    LiteralExpression,
+    ParenthesizedExpression
 }
