@@ -19,7 +19,7 @@ public class PrettyPrint {
         System.out.println();
 
         indent += isLast ? "   " : "|   ";
-        SyntaxNode lastChild = node.getChildren().size() > 0 ? node.getChildren().get(node.getChildren().size() - 1)
+        SyntaxNode lastChild = !node.getChildren().isEmpty() ? node.getChildren().get(node.getChildren().size() - 1)
                 : null;
         for (var child : node.getChildren()) {
             pprint(child, indent, child == lastChild);

@@ -43,7 +43,7 @@ public class Lexer {
         }
     }
 
-    public SyntaxToken nextToken() {
+    public SyntaxToken Lex() {
         if (_position >= _text.length())
             return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
 
@@ -56,25 +56,36 @@ public class Lexer {
             // System.out.println("start: "+start+" end:"+_position);
             String text = _text.substring(start, end);
             return new SyntaxToken(SyntaxKind.NumberToken, start, text, parseWithDefault(text, 0, _diagnostics));
-        } else if (current() == ' ') {
-            int start = _position;
-            while (current() == ' ')
-                Next();
-            int end = _position; // end is one pointer ahead
-            String text = _text.substring(start, end);
-            return new SyntaxToken(SyntaxKind.WhiteSpaceToken, start, text, text);
-        } else if (current() == '+')
-            return new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null);
-        else if (current() == '-')
-            return new SyntaxToken(SyntaxKind.MinusToken, _position++, "-", null);
-        else if (current() == '*')
-            return new SyntaxToken(SyntaxKind.StarToken, _position++, "*", null);
-        else if (current() == '/')
-            return new SyntaxToken(SyntaxKind.BackSlashToken, _position++, "/", null);
-        else if (current() == '(')
-            return new SyntaxToken(SyntaxKind.BracketOpenToken, _position++, "(", null);
-        else if (current() == ')')
-            return new SyntaxToken(SyntaxKind.BracketCloseToken, _position++, ")", null);
+        }
+
+        switch (current()) {
+            case ' ' -> {
+                int start = _position;
+                while (current() == ' ')
+                    Next();
+                int end = _position; // end is one pointer ahead
+                String text = _text.substring(start, end);
+                return new SyntaxToken(SyntaxKind.WhiteSpaceToken, start, text, text);
+            }
+            case '+' -> {
+                return new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null);
+            }
+            case '-' -> {
+                return new SyntaxToken(SyntaxKind.MinusToken, _position++, "-", null);
+            }
+            case '*' -> {
+                return new SyntaxToken(SyntaxKind.StarToken, _position++, "*", null);
+            }
+            case '/' -> {
+                return new SyntaxToken(SyntaxKind.BackSlashToken, _position++, "/", null);
+            }
+            case '(' -> {
+                return new SyntaxToken(SyntaxKind.BracketOpenToken, _position++, "(", null);
+            }
+            case ')' -> {
+                return new SyntaxToken(SyntaxKind.BracketCloseToken, _position++, ")", null);
+            }
+        }
         _diagnostics.add("Lexer : ERROR : Bad Character Input : " + current());
         return new SyntaxToken(SyntaxKind.BadToken, _position++, _text.substring(_position - 1, _position), null);
     }

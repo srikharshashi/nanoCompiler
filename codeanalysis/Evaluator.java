@@ -1,7 +1,7 @@
 package codeanalysis;
 
 public class Evaluator {
-    private ExpressionSyntax _root;
+    private final ExpressionSyntax _root;
 
     public Evaluator(ExpressionSyntax root) {
         _root = root;
@@ -12,20 +12,21 @@ public class Evaluator {
         try {
             val = evaluateExpression(_root);
         } catch (Exception e) {
-            System.out.println("EVALUATOR : " + e.toString());
+            System.out.println("EVALUATOR : " + e);
         }
         return val;
     }
 
     private int evaluateExpression(ExpressionSyntax node) throws Exception {
-        if (node instanceof LiteralExpressionSyntax) {
+        if (node instanceof LiteralExpressionSyntax _node) {
             // System.out.println("abc");
-            LiteralExpressionSyntax _node = (LiteralExpressionSyntax) node;
             return (int) _node.getLiteralToken().getValue();
-        }
-
-        else if (node instanceof BinaryExpressionSyntax) {
-            BinaryExpressionSyntax _node = (BinaryExpressionSyntax) node;
+        } else if (node instanceof UnaryExpressionSyntax _node) {
+            var operand = evaluateExpression(_node.get_operand());
+            if (_node.get_operator().getKind() == SyntaxKind.PlusToken) return operand;
+            else if (_node.get_operator().getKind() == SyntaxKind.MinusToken) return -operand;
+            else throw new Exception("EVALUATOR:  Unexpected operator : " + _node.get_operator());
+        } else if (node instanceof BinaryExpressionSyntax _node) {
             int left = evaluateExpression(_node.get_left());
             int right = evaluateExpression(_node.get_right());
             SyntaxToken operatorToken = _node.get_operator();
@@ -38,13 +39,9 @@ public class Evaluator {
                 case BackSlashToken -> left / right;
                 default -> throw new Exception("EVALUATOR : Unexpected Binary Operator :" + operatorToken.getKind());
             };
-        } else if (node instanceof ParanthesizedExpressionSyntax) {
-            ParanthesizedExpressionSyntax p = (ParanthesizedExpressionSyntax) node;
+        } else if (node instanceof ParanthesizedExpressionSyntax p) {
             return evaluateExpression(p.get_expressionSyntax());
-        }
-
-        else
-            throw new Exception("EVALUATOR:Unexpected Node : " + node.getKind());
+        } else throw new Exception("EVALUATOR:Unexpected Node : " + node.getKind());
 
     }
 

@@ -2,7 +2,7 @@ import java.util.*;
 
 import codeanalysis.*;
 
-// 1:21:28
+// EP2: 31:01
 class REPL {
     static void printColorText(String color, String text) {
         System.out.println(Colors.ANSI_RED + text + Colors.ANSI_RESET);
@@ -25,7 +25,7 @@ class REPL {
                 continue;
             }
             var syntaxTree = SyntaxTree.parse(str);
-            if (showTree) PrettyPrint.pprint(null, str, showTree);
+            if (showTree) PrettyPrint.pprint(syntaxTree.get_root(), "", showTree);
 
             if (!syntaxTree.get_diagnostics().isEmpty()) {
                 for (String error : syntaxTree.get_diagnostics()) {
